@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'attendance',
     'leave_management',
     'payroll',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -102,6 +103,10 @@ DATABASES = {
 
 # Password validation
 #admin username: admin1 and password: spidey123
+#aswin_admin : spidey123
+# ID: 39 | Employee ID: EMP001 | Username: aswin_admin
+# ID: 72 | Employee ID: EMP002 | Username: HR1
+# ID: 73 | Employee ID: EMP003 | Username: EMPLOYEE
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = "accounts.User"

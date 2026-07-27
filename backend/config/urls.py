@@ -11,6 +11,9 @@ urlpatterns = [
     path('api/departments/',include("departments.urls")),
     path('api/employees/',include('employees.urls')),
     path('api/attendance/', include('attendance.urls')),
+    path('api/leave/',include("leave_management.urls")),
+    path('api/payroll/',include ('payroll.urls')),
+    path('api/dashboard/',include("dashboard.urls")),
     
     path('api/token/',TokenObtainPairView.as_view(),name = "token_obtain_pair"),
     path('api/token/refresh/',TokenRefreshView.as_view(), name = "token_refresh"),

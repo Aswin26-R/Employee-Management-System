@@ -3,7 +3,7 @@ from employees.models import Employee
 
 # Create your models here.
 
-class Attandance(models.Model):
+class Attendance(models.Model):
     employee = models.ForeignKey(
         Employee,
         on_delete=models.CASCADE,

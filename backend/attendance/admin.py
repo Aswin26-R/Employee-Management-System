@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Attandance
+from .models import Attendance
 # Register your models here.
 
-admin.site.register(Attandance)
+admin.site.register(Attendance)
