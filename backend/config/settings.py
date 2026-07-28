@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
@@ -61,9 +62,24 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES":[
         "rest_framework.permissions.IsAuthenticated",
     ],
+    "DEFAULT_FILTER_BACKENDS":[
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 5,
+    
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    
+    "EXCEPTION_HANDLER": "utils.exceptions.custom_exception_handler",
 }
 
-
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Employee Management & Payroll System API",
+    "DESCRIPTION": "API documentation for Employee Management & Payroll System",
+    "VERSION": "1.0.0",
+}
 
 
 ROOT_URLCONF = 'config.urls'
