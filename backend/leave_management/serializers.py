@@ -7,8 +7,9 @@ class LeaveSerializer(serializers.ModelSerializer):
         fields = "__all__"
     
     def validate(self, attrs):
-        if attrs["start_date"] > attrs["ends_date"]:
+        if attrs["start_date"] > attrs["end_date"]:
             raise serializers.ValidationError(
                 "Start date cannot be after end date."
             )
         return attrs
+    
