@@ -1,0 +1,331 @@
+# Employee Management & Payroll System
+
+A full-stack **Employee Management & Payroll System** built using **Django REST Framework**, **PostgreSQL**, and **React.js**. The system streamlines HR operations by managing employees, departments, attendance, leave requests, payroll, and dashboard analytics through secure REST APIs.
+
+---
+
+## 🚀 Features
+
+### 🔐 Authentication & Authorization
+- JWT Authentication (Simple JWT)
+- Role-Based Access Control (RBAC)
+- Object-Level Permissions
+- Secure API Access
+
+---
+
+## 👥 User Roles
+
+### 👨‍💼 Admin
+- Manage Users
+- Manage Departments
+- Manage Employees
+- Manage Attendance
+- Manage Leave Requests
+- Manage Payroll
+- View Dashboard Reports
+
+### 👩‍💼 HR
+- Manage Employees
+- Record Attendance
+- Approve/Reject Leave Requests
+- Generate Payroll
+- View Dashboard
+
+### 👨‍💻 Employee
+- View Profile
+- View Attendance
+- Apply Leave
+- View Payroll
+- Update Personal Information
+
+---
+
+# 📦 Modules
+
+## 1. Accounts
+- User Registration
+- JWT Login
+- Token Refresh
+- Role Management
+
+## 2. Departments
+- Create Department
+- Update Department
+- Delete Department
+- View Departments
+
+## 3. Employees
+- Employee CRUD
+- Department Assignment
+- Employee Search
+- Filtering
+- Ordering
+- Pagination
+
+## 4. Attendance
+- Mark Attendance
+- Check In
+- Check Out
+- Attendance History
+
+## 5. Leave Management
+- Apply Leave
+- Approve Leave
+- Reject Leave
+- Leave Status Tracking
+
+## 6. Payroll
+- Generate Payroll
+- Basic Salary
+- Bonus
+- Deductions
+- Automatic Net Salary Calculation
+
+**Net Salary Formula**
+
+```text
+Net Salary = Basic Salary + Bonus − Deductions
+```
+
+## 7. Dashboard
+- Total Employees
+- Total Departments
+- Present Today
+- Pending Leave Requests
+- Payroll Summary
+
+---
+
+# 🛡 Security Features
+
+- JWT Authentication
+- Role-Based Authorization
+- Object-Level Permissions
+- Protected REST APIs
+
+---
+
+# ✅ Business Validations
+
+- Prevent duplicate Employee IDs
+- Salary must be greater than zero
+- Leave start date cannot be after end date
+- Prevent future attendance entries
+- Prevent duplicate attendance for the same employee on the same date
+
+---
+
+# 📚 API Features
+
+- RESTful APIs
+- Search
+- Filtering
+- Ordering
+- Pagination
+- Custom Exception Handling
+- Swagger/OpenAPI Documentation
+
+---
+
+# 🏗 Tech Stack
+
+## Backend
+- Python
+- Django
+- Django REST Framework
+- Simple JWT
+- drf-spectacular
+- django-filter
+
+## Database
+- PostgreSQL
+
+## Frontend
+- React.js *(In Progress)*
+
+## Tools
+- Postman
+- Swagger UI
+- Git
+- GitHub
+- VS Code
+
+---
+
+# 📂 Project Structure
+
+```text
+Employee-Management-System/
+│
+├── backend/
+│   ├── accounts/
+│   ├── attendance/
+│   ├── dashboard/
+│   ├── departments/
+│   ├── employees/
+│   ├── leave_management/
+│   ├── payroll/
+│   ├── utils/
+│   ├── backend/
+│   ├── manage.py
+│   └── requirements.txt
+│
+└── frontend/ (React - In Progress)
+```
+
+---
+
+# ⚙️ Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/your-username/Employee-Management-System.git
+cd Employee-Management-System
+```
+
+## Create Virtual Environment
+
+```bash
+python -m venv .venv
+```
+
+## Activate Virtual Environment
+
+### Windows
+
+```bash
+.venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+source .venv/bin/activate
+```
+
+## Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Apply Migrations
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+## Create Superuser
+
+```bash
+python manage.py createsuperuser
+```
+
+## Run Server
+
+```bash
+python manage.py runserver
+```
+
+---
+
+# 🔑 Authentication
+
+### Obtain Access Token
+
+```http
+POST /api/token/
+```
+
+### Refresh Token
+
+```http
+POST /api/token/refresh/
+```
+
+---
+
+# 📖 API Documentation
+
+### Swagger UI
+
+```
+http://127.0.0.1:8000/api/docs/
+```
+
+### OpenAPI Schema
+
+```
+http://127.0.0.1:8000/api/schema/
+```
+
+### ReDoc
+
+```
+http://127.0.0.1:8000/api/redoc/
+```
+
+---
+
+# 📊 Backend Progress
+
+## ✅ Completed
+
+- JWT Authentication
+- Role-Based Access Control
+- Object-Level Permissions
+- Department CRUD
+- Employee CRUD
+- Attendance CRUD
+- Leave CRUD
+- Payroll CRUD
+- Dashboard APIs
+- Search
+- Filtering
+- Ordering
+- Pagination
+- Business Validations
+- Custom Exception Handling
+- Swagger/OpenAPI Documentation
+
+## 🚧 In Progress
+
+- React Frontend
+
+## 📌 Planned
+
+- Docker Support
+- Unit Testing
+- Deployment
+- Reports & Charts
+
+---
+
+# 🚀 Future Enhancements
+
+- Email Notifications
+- Payroll PDF Generation
+- Attendance Reports
+- Dashboard Charts
+- Employee Profile Picture Upload
+- Audit Logs
+
+---
+
+# 👨‍💻 Author
+
+**Aswin R**
+
+- Full Stack Developer
+- Backend: Django REST Framework
+- Frontend: React.js
+- Database: PostgreSQL
+
+---
+
+# 📄 License
+
+This project is developed for educational and learning purposes.
