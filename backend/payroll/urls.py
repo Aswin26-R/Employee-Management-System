@@ -1,7 +1,11 @@
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
 from .views import PayrollViewSet
 
 router = DefaultRouter()
-router.register("",PayrollViewSet,basename="payroll")
+router.register("", PayrollViewSet, basename="payroll")
 
-urlpatterns = router.urls
+urlpatterns = [
+    path("", include(router.urls)),
+]

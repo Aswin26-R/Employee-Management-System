@@ -1,0 +1,74 @@
+:root {
+  /* ==========================================
+   * Brand Colors — Workforce HR Color Palette
+   * ========================================== */
+  --primary: #6A89A7;
+  --primary-hover: #57728C;
+  --primary-light: #BDDDFC;
+  --primary-border: #a4c8e8;
+  --primary-gradient: linear-gradient(135deg, #6A89A7 0%, #384959 100%);
+  --primary-deep: #384959;
+
+  /* Accent */
+  --accent: #88CDF2;
+  --accent-light: #d6eefb;
+
+  /* Sidebar & Header Colors */
+  --sidebar-bg: #384959;
+  --sidebar-hover: #2e3c4a;
+  --sidebar-active: #6A89A7;
+  --sidebar-text: #a8bfcf;
+  --sidebar-text-active: #ffffff;
+  --sidebar-border: #2e3c4a;
+  --topbar-bg: #ffffff;
+
+  /* Neutrals */
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-hover: #f1f5f9;
+
+  --text-main: #1F2937;
+  --text-secondary: #6B7280;
+  --text-muted: #9ca3af;
+
+  --border-color: #E5E7EB;
+  --border-light: #f3f4f6;
+
+  /* Status Colors */
+  --success: #22C55E;
+  --success-light: #dcfce7;
+  --warning: #F59E0B;
+  --warning-light: #fef3c7;
+  --danger: #EF4444;
+  --danger-light: #fee2e2;
+  --info: #06b6d4;
+  --info-light: #cffafe;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Elevation Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* Font Family */
+  --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Sidebar Width */
+  --sidebar-width: 260px;
+  --topbar-height: 68px;
+}

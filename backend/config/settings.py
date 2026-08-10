@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -118,7 +119,7 @@ DATABASES = {
 
 
 # Password validation
-#admin username: admin1 and password: spidey123
+#admin username: admin and password: spidey123
 #aswin_admin : spidey123
 # ID: 39 | Employee ID: EMP001 | Username: aswin_admin
 # ID: 72 | Employee ID: EMP002 | Username: HR1
@@ -142,7 +143,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOW_ALL_ORIGINS = True 
+#    ["http://localhost:5173/",
+# ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/

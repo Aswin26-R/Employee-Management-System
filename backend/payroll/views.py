@@ -1,5 +1,7 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from accounts.permissions import IsOwnerOrAdminHR
 from .models import Payroll 
@@ -28,4 +30,37 @@ class PayrollViewSet(viewsets.ModelViewSet):
             "employee","employee__user"
         ).filter(
             employee__user=user
+        )
+    
+    @action(
+        detail = False,
+        methods=["get"],
+        url_path = "my-payroll"
+    )
+    def my_payroll(self, request):
+        payrolls = Payroll.objects.select_related(
+            "employee",
+            "employee__user"
+        ).filter(
+            employee__user = request.user
+        )
+
+        serializer = self.get_serializer(payrolls, many=True)
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+        )
+        
+    @action(
+        detail = False,
+        methods=["post"],
+        url_path="generate"
+    )
+    def generate(self, request):
+        return Response(
+            {
+                "message": "Payroll generation endpoint is working"
+            },
+            status = status.HTTP_200_OK
         )
