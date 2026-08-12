@@ -20,16 +20,3 @@ class LeaveSerializer(serializers.ModelSerializer):
                 "Start date cannot be after end date."
             )
         return attrs
-    
-    def create(self, validated_data):
-        request = self.context["request"]
-        
-        employee = Employee.objects.get(
-            user =request.user
-        )
-        
-        leave = Leave.objects.create(
-            employee=employee,
-            **validated_data
-        )
-        return leave

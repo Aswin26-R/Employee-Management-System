@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError
 
 from accounts.permissions import IsOwnerOrAdminHR
 from .models import Leave
@@ -38,7 +39,12 @@ class LeaveViewSet(viewsets.ModelViewSet):
         )
 
     def perform_create(self, serializer):
-        employee = Employee.objects.get(user=self.request.user)
+        try:
+            employee = Employee.objects.get(user=self.request.user)
+        except Employee.DoesNotExist:
+            raise ValidationError(
+                "No Employee profile is associated with this user"
+            )
         serializer.save(employee=employee)
 
     @action(
