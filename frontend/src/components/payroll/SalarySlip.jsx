@@ -5,12 +5,19 @@ import { formatCurrency, formatDate, printElement } from '../../utils/helpers';
 const SalarySlip = ({ slipData }) => {
   if (!slipData) return null;
 
-  const employeeName = slipData.employee_name || 'John Doe';
-  const monthYear = slipData.month_year || 'June 2026';
-  const basicSalary = slipData.basic_salary || 4500;
-  const allowances = slipData.allowances || 500;
-  const deductions = slipData.deductions || 200;
-  const netSalary = slipData.net_salary || basicSalary + allowances - deductions;
+  const employeeName = slipData.employee_name || 'Employee';
+  const employeeId = slipData.employee_id || '-';
+  const department = slipData.department || '-';
+  const designation = slipData.designation || '-';
+  const basicSalary = Number(slipData.basic_salary || 0);
+  const hra = Number(slipData.hra || 0);
+  const allowance = Number(slipData.allowance || 0);
+  const tax = Number(slipData.tax || 0);
+  const insurance = Number(slipData.insurance || 0);
+  const otherDeductions = Number(slipData.other_deductions || 0);
+  const deductions = Number(slipData.deductions || 0);
+  const netSalary = Number(slipData.net_salary || 0);
+  const monthYear = `${slipData.month || '-'} ${slipData.year || '-'}`;
 
   return (
     <div style={{ maxWidth: '700px', margin: '0 auto' }}>
@@ -58,7 +65,7 @@ const SalarySlip = ({ slipData }) => {
         >
           <div>
             <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)' }}>
-              WorkforceHR Inc.
+              WorkBalance Suite
             </h2>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
               100 Tech Plaza, Suite 400 • HR & Payroll Dept
@@ -92,22 +99,22 @@ const SalarySlip = ({ slipData }) => {
               <strong>Employee Name:</strong> {employeeName}
             </p>
             <p>
-              <strong>Employee ID:</strong> {slipData.employee_id || '#EMP-104'}
+              <strong>Employee ID:</strong> {employeeId}
             </p>
             <p>
-              <strong>Department:</strong> {slipData.department || 'Engineering'}
+              <strong>Department:</strong> {department}
             </p>
           </div>
           <div>
             <p>
-              <strong>Designation:</strong> {slipData.designation || 'Software Engineer'}
+              <strong>Designation:</strong> {designation}
             </p>
             <p>
-              <strong>Pay Date:</strong> {formatDate(slipData.created_at || new Date())}
+              <strong>Pay Date:</strong> {formatDate(slipData.pay_date || slipData.created_at || new Date())}
             </p>
             <p>
               <strong>Payment Status:</strong>{' '}
-              <span className="badge badge-success">PAID</span>
+              <span className="badge badge-success">{slipData.payment_status || 'PAID'}</span>
             </p>
           </div>
         </div>
@@ -130,28 +137,28 @@ const SalarySlip = ({ slipData }) => {
               <td>Basic Salary</td>
               <td style={{ textAlign: 'right' }}>{formatCurrency(basicSalary)}</td>
               <td>Tax (TDS / Income)</td>
-              <td style={{ textAlign: 'right' }}>{formatCurrency(deductions * 0.6)}</td>
+              <td style={{ textAlign: 'right' }}>{formatCurrency(tax)}</td>
             </tr>
             <tr>
               <td>House Rent Allowance (HRA)</td>
-              <td style={{ textAlign: 'right' }}>{formatCurrency(allowances * 0.6)}</td>
+              <td style={{ textAlign: 'right' }}>{formatCurrency(hra)}</td>
               <td>Health Insurance</td>
-              <td style={{ textAlign: 'right' }}>{formatCurrency(deductions * 0.4)}</td>
+              <td style={{ textAlign: 'right' }}>{formatCurrency(insurance)}</td>
             </tr>
             <tr>
-              <td>Special / Conveyance Allowance</td>
-              <td style={{ textAlign: 'right' }}>{formatCurrency(allowances * 0.4)}</td>
-              <td>-</td>
-              <td style={{ textAlign: 'right' }}>$0.00</td>
+              <td>Other Allowance</td>
+              <td style={{ textAlign: 'right' }}>{formatCurrency(allowance)}</td>
+              <td>Other Deductions</td>
+              <td style={{ textAlign: 'right' }}>{formatCurrency(otherDeductions)}</td>
             </tr>
             <tr style={{ fontWeight: 700, backgroundColor: '#f8fafc' }}>
               <td>Total Gross Earnings</td>
               <td style={{ textAlign: 'right', color: 'var(--success)' }}>
-                {formatCurrency(basicSalary + allowances)}
+                {formatCurrency(basicSalary + hra + allowance)}
               </td>
               <td>Total Deductions</td>
               <td style={{ textAlign: 'right', color: 'var(--danger)' }}>
-                {formatCurrency(deductions)}
+                {formatCurrency(tax + insurance + otherDeductions + deductions)}
               </td>
             </tr>
           </tbody>

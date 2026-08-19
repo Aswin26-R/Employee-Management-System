@@ -13,6 +13,7 @@ const DashboardEmployeeTable = ({ employees = [] }) => {
       >
         Recent Joiners & Team Overview
       </h3>
+
       <div className="table-container">
         <table className="custom-table">
           <thead>
@@ -25,37 +26,81 @@ const DashboardEmployeeTable = ({ employees = [] }) => {
               <th>Status</th>
             </tr>
           </thead>
+
           <tbody>
             {employees.length === 0 ? (
               <tr>
-                <td colSpan="6" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+                <td
+                  colSpan="6"
+                  style={{
+                    textAlign: 'center',
+                    color: 'var(--text-muted)'
+                  }}
+                >
                   No employees found
                 </td>
               </tr>
             ) : (
               employees.slice(0, 5).map((emp) => (
                 <tr key={emp.id || emp.employee_id}>
-                  <td style={{ fontWeight: 600 }}>{emp.employee_id || `#EMP-${emp.id}`}</td>
+
+                  <td style={{ fontWeight: 600 }}>
+                    {emp.employee_id || `#EMP-${emp.id}`}
+                  </td>
+
+                  {/* Employee Name */}
                   <td>
                     <div style={{ fontWeight: 500 }}>
-                      {emp.first_name ? `${emp.first_name} ${emp.last_name || ''}` : emp.name || emp.username}
+                      {`${emp.first_name || emp.user?.first_name || ''} ${
+                        emp.last_name || emp.user?.last_name || ''
+                      }`.trim() ||
+                        emp.name ||
+                        emp.username ||
+                        emp.user?.username ||
+                        'N/A'}
                     </div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                      {emp.email}
+
+                    <div
+                      style={{
+                        fontSize: '0.75rem',
+                        color: 'var(--text-muted)'
+                      }}
+                    >
+                      {emp.email || emp.user?.email || 'No email'}
                     </div>
                   </td>
-                  <td>{emp.department_name || emp.department || 'N/A'}</td>
-                  <td>{emp.designation || 'Staff'}</td>
-                  <td>{formatDate(emp.joining_date || emp.date_joined)}</td>
+
+                  <td>
+                    {emp.department_name ||
+                      emp.department?.name ||
+                      emp.department ||
+                      'N/A'}
+                  </td>
+
+                  <td>
+                    {emp.designation || 'Staff'}
+                  </td>
+
+                  <td>
+                    {formatDate(
+                      emp.joining_date || emp.date_joined
+                    )}
+                  </td>
+
                   <td>
                     <span
                       className={`badge ${
-                        emp.is_active !== false ? 'badge-success' : 'badge-danger'
+                        emp.is_active !== false
+                          ? 'badge-success'
+                          : 'badge-danger'
                       }`}
                     >
-                      {emp.is_active !== false ? 'Active' : 'Inactive'}
+                      {emp.is_active !== false
+                        ? 'Active'
+                        : 'Inactive'}
                     </span>
                   </td>
+
                 </tr>
               ))
             )}

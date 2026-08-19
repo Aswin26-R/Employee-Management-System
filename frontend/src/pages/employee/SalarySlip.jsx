@@ -12,61 +12,91 @@ const EmployeeSalarySlip = () => {
     const fetchMyPayroll = async () => {
       try {
         const data = await payrollService.getMyPayroll();
-        const list = Array.isArray(data) ? data : data.results || [];
+
+        const list = Array.isArray(data)
+          ? data
+          : data.results || [];
+
         setPayrollRecords(list);
-        if (list.length > 0) setSelectedRecord(list[0]);
+
+        if (list.length > 0) {
+          setSelectedRecord(list[0]);
+        }
       } catch (err) {
-        console.error('Failed to load my payroll', err);
+        console.error('Failed to load my payroll:', err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchMyPayroll();
   }, []);
 
-  if (loading) return <Loader message="Fetching your salary slip..." />;
-
-  const dummySlip = {
-    employee_name: 'Alex Johnson',
-    employee_id: '#EMP-204',
-    department: 'Engineering',
-    designation: 'Software Engineer',
-    month_year: 'June 2026',
-    basic_salary: 4800,
-    allowances: 600,
-    deductions: 250,
-    net_salary: 5150
-  };
+  if (loading) {
+    return <Loader message="Fetching your salary slip..." />;
+  }
 
   return (
     <div className="page-container">
+
       <div className="page-header">
         <div>
-          <h1 className="page-title">My Payslips</h1>
-          <p className="page-subtitle">View and download your monthly salary statements</p>
+          <h1 className="page-title">
+            My Payslips
+          </h1>
+
+          <p className="page-subtitle">
+            View and download your monthly salary statements
+          </p>
         </div>
       </div>
 
-      {payrollRecords.length > 1 && (
-        <div className="card" style={{ marginBottom: '24px' }}>
-          <label className="form-label">Select Pay Period</label>
-          <select
-            className="input-field"
-            onChange={(e) => {
-              const rec = payrollRecords.find((r) => r.id === parseInt(e.target.value));
-              if (rec) setSelectedRecord(rec);
-            }}
-          >
-            {payrollRecords.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.month_year || `Statement #${r.id}`}
-              </option>
-            ))}
-          </select>
+      {payrollRecords.length === 0 ? (
+        <div className="card">
+          <p>
+            No payroll statements available.
+          </p>
         </div>
+      ) : (
+        <>
+          {payrollRecords.length > 1 && (
+            <div
+              className="card"
+              style={{ marginBottom: '24px' }}
+            >
+              <label className="form-label">
+                Select Pay Period
+              </label>
+
+              <select
+                className="input-field"
+                value={selectedRecord?.id || ''}
+                onChange={(e) => {
+                  const record = payrollRecords.find(
+                    (r) => r.id === Number(e.target.value)
+                  );
+
+                  setSelectedRecord(record);
+                }}
+              >
+                {payrollRecords.map((record) => (
+                  <option
+                    key={record.id}
+                    value={record.id}
+                  >
+                    {record.pay_month}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <SalarySlip
+            slipData={selectedRecord}
+          />
+        </>
       )}
 
-      <SalarySlip slipData={selectedRecord || dummySlip} />
     </div>
   );
 };

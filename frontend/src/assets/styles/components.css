@@ -296,7 +296,7 @@ select.input-field {
 }
 
 .custom-table tbody tr:hover {
-  background-color: #f8fafc;
+  background-color: white
 }
 
 .custom-table tbody tr:last-child td {

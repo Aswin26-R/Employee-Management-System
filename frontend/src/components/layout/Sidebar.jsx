@@ -1,5 +1,6 @@
-import { NavLink } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
+import logo from '../../assets/icons/logo2.png';
 import {
   LayoutDashboard,
   Users,
@@ -11,40 +12,44 @@ import {
   Settings,
   LogOut,
   UserCheck,
-  Building,
-  FileText
-} from 'lucide-react';
+  FileText,
+} from "lucide-react";
 
 const NAV_CONFIG = {
   Admin: [
-    { label: 'Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-    { label: 'Employees', path: '/admin/employees', icon: Users },
-    { label: 'Departments', path: '/admin/departments', icon: Building2 },
-    { label: 'Attendance', path: '/admin/attendance', icon: CalendarCheck },
-    { label: 'Leave', path: '/admin/leave', icon: CalendarDays },
-    { label: 'Payroll', path: '/admin/payroll', icon: CreditCard },
-    { label: 'Reports', path: '/admin/reports', icon: FileBarChart },
-    { label: 'Settings', path: '/admin/settings', icon: Settings }
+    { label: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
+    { label: "Employees", path: "/admin/employees", icon: Users },
+    { label: "Departments", path: "/admin/departments", icon: Building2},
+    { label: "Attendance", path: "/admin/attendance", icon: CalendarCheck },
+    { label: "Leave", path: "/admin/leave", icon: CalendarDays },
+    { label: "Payroll", path: "/admin/payroll", icon: CreditCard },
+    { label: "Reports", path: "/admin/reports", icon: FileBarChart },
+    { label: "Settings", path: "/admin/settings", icon: Settings },
   ],
   HR: [
-    { label: 'Dashboard', path: '/hr/dashboard', icon: LayoutDashboard },
-    { label: 'Employees', path: '/hr/employees', icon: Users },
-    { label: 'Attendance', path: '/hr/attendance', icon: CalendarCheck },
-    { label: 'Leave', path: '/hr/leave', icon: CalendarDays },
-    { label: 'Payroll', path: '/hr/payroll', icon: CreditCard }
+    { label: "Dashboard", path: "/hr/dashboard", icon: LayoutDashboard },
+    { label: "Employees", path: "/hr/employees", icon: Users },
+    { label: "Attendance", path: "/hr/attendance", icon: CalendarCheck },
+    { label: "Leave", path: "/hr/leave", icon: CalendarDays },
+    { label: "Payroll", path: "/hr/payroll", icon: CreditCard },
   ],
   Employee: [
-    { label: 'Dashboard', path: '/employee/dashboard', icon: LayoutDashboard },
-    { label: 'My Profile', path: '/employee/profile', icon: UserCheck },
-    { label: 'Attendance', path: '/employee/attendance', icon: CalendarCheck },
-    { label: 'My Leave', path: '/employee/leave', icon: CalendarDays },
-    { label: 'Salary Slip', path: '/employee/salary-slip', icon: FileText }
-  ]
+    { label: "Dashboard", path: "/employee/dashboard", icon: LayoutDashboard },
+    { label: "My Profile", path: "/employee/profile", icon: UserCheck },
+    { label: "Attendance", path: "/employee/attendance", icon: CalendarCheck },
+    { label: "My Leave", path: "/employee/leave", icon: CalendarDays },
+    { label: "Salary Slip", path: "/employee/salary-slip", icon: FileText },
+  ],
 };
 
 const getInitials = (name) => {
-  if (!name) return 'U';
-  return name.split(' ').map((p) => p[0]).join('').toUpperCase().slice(0, 2);
+  if (!name) return "U";
+  return name
+    .split(" ")
+    .map((p) => p[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
 };
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -52,8 +57,8 @@ const Sidebar = ({ isOpen, onClose }) => {
   const navItems = NAV_CONFIG[role] || NAV_CONFIG.Employee;
 
   const displayName = user?.first_name
-    ? `${user.first_name} ${user.last_name || ''}`.trim()
-    : user?.username || 'User';
+    ? `${user.first_name} ${user.last_name || ""}`.trim()
+    : user?.username || "User";
 
   const handleLogout = () => {
     logout();
@@ -71,25 +76,33 @@ const Sidebar = ({ isOpen, onClose }) => {
         />
       )}
 
-      <aside className={`sidebar ${isOpen ? 'mobile-open' : ''}`} aria-label="Main navigation">
+      <aside
+        className={`sidebar ${isOpen ? "mobile-open" : ""}`}
+        aria-label="Main navigation"
+      >
         {/* Header */}
         <div className="sidebar-header">
-          <div className="logo-circle">
-            <Building size={22} />
+          <div className="logo-container">
+            <img src={logo} alt="WorkBalance Suite" className="sidebar-logo" />
           </div>
+
           <div style={{ minWidth: 0 }}>
-            <div className="logo-text">WorkforceHR</div>
+            <div className="logo-text">WorkBalance Suite</div>
             <div className="logo-tagline">People. Growth. Success.</div>
           </div>
         </div>
-
         {/* Role badge */}
         <div className="role-badge-container">
           <span className="role-badge">
-            <span style={{
-              width: '6px', height: '6px', borderRadius: '50%',
-              background: 'var(--accent)', display: 'inline-block'
-            }} />
+            <span
+              style={{
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                background: "var(--accent)",
+                display: "inline-block",
+              }}
+            />
             {role} Portal
           </span>
         </div>
@@ -103,7 +116,9 @@ const Sidebar = ({ isOpen, onClose }) => {
               <NavLink
                 key={item.path}
                 to={item.path}
-                className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                className={({ isActive }) =>
+                  `nav-item ${isActive ? "active" : ""}`
+                }
                 onClick={onClose}
                 title={item.label}
               >
@@ -128,7 +143,11 @@ const Sidebar = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          <button className="logout-btn" onClick={handleLogout} aria-label="Sign out">
+          <button
+            className="logout-btn"
+            onClick={handleLogout}
+            aria-label="Sign out"
+          >
             <LogOut size={17} />
             <span>Sign Out</span>
           </button>

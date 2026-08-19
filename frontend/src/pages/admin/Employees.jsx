@@ -25,13 +25,20 @@ const AdminEmployees = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8;
 
+  // Fetch employees
   const fetchEmployees = useCallback(async () => {
     setLoading(true);
+
     try {
       const data = await employeeService.getAll();
-      const list = Array.isArray(data) ? data : data.results || [];
+
+      const list = Array.isArray(data)
+        ? data
+        : data?.results || [];
+
       setEmployees(list);
     } catch (err) {
+      console.error('Fetch employees error:', err);
       toast.error('Failed to load employee list');
     } finally {
       setLoading(false);
@@ -42,90 +49,178 @@ const AdminEmployees = () => {
     fetchEmployees();
   }, [fetchEmployees]);
 
+  // Reset pagination when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search]);
+
+  // Search employees
   const filteredEmployees = employees.filter((emp) => {
-    const fullName = `${emp.first_name || ''} ${emp.last_name || ''}`.toLowerCase();
-    const query = search.toLowerCase();
+    const fullName = `${emp.first_name || ''} ${emp.last_name || ''}`
+      .toLowerCase();
+
+    const query = search.toLowerCase().trim();
+
     return (
       fullName.includes(query) ||
       emp.email?.toLowerCase().includes(query) ||
       emp.username?.toLowerCase().includes(query) ||
-      emp.department_name?.toLowerCase().includes(query)
+      emp.employee_id?.toLowerCase().includes(query) ||
+      emp.department_name?.toLowerCase().includes(query) ||
+      emp.designation?.toLowerCase().includes(query)
     );
   });
 
+  // Pagination
   const totalPages = Math.ceil(filteredEmployees.length / pageSize);
+
   const paginatedEmployees = filteredEmployees.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
 
+  // Create employee
   const handleCreate = async (formData) => {
     setSubmitting(true);
+
     try {
       await employeeService.create(formData);
+
       toast.success('Employee created successfully');
+
       setIsModalOpen(false);
-      fetchEmployees();
+      setSelectedEmployee(null);
+
+      await fetchEmployees();
     } catch (err) {
-      const message = err.response?.data?.message || err.response?.data || 'Failed to create employee';
-      toast.error(typeof message === 'string' ? message : 'Failed to create employee');
+      console.error('Create employee error:', err);
+
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.detail ||
+        'Failed to create employee';
+
+      toast.error(
+        typeof message === 'string'
+          ? message
+          : 'Failed to create employee'
+      );
     } finally {
       setSubmitting(false);
     }
   };
 
+  // Update employee
   const handleUpdate = async (formData) => {
     if (!selectedEmployee) return;
 
     setSubmitting(true);
+
     try {
-      await employeeService.update(selectedEmployee.id, formData);
+      await employeeService.update(
+        selectedEmployee.id,
+        formData
+      );
+
       toast.success('Employee updated successfully');
+
       setIsModalOpen(false);
       setSelectedEmployee(null);
-      fetchEmployees();
+
+      await fetchEmployees();
     } catch (err) {
-      const message = err.response?.data?.message || err.response?.data || 'Failed to update employee';
-      toast.error(typeof message === 'string' ? message : 'Failed to update employee');
+      console.error('Update employee error:', err);
+
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.detail ||
+        'Failed to update employee';
+
+      toast.error(
+        typeof message === 'string'
+          ? message
+          : 'Failed to update employee'
+      );
     } finally {
       setSubmitting(false);
     }
   };
 
+  // Delete employee
   const handleDelete = async () => {
-    if (!deleteId) return;
+    if (deleteId === null) return;
+
     setSubmitting(true);
+
     try {
       await employeeService.delete(deleteId);
+
       toast.success('Employee removed successfully');
+
       setDeleteId(null);
-      fetchEmployees();
-    } catch {
+
+      await fetchEmployees();
+
+      // Prevent invalid page after deletion
+      if (
+        currentPage > 1 &&
+        paginatedEmployees.length === 1
+      ) {
+        setCurrentPage((prev) => prev - 1);
+      }
+    } catch (err) {
+      console.error('Delete employee error:', err);
       toast.error('Failed to delete employee');
     } finally {
       setSubmitting(false);
     }
   };
 
+  // Open create modal
+  const openCreateModal = () => {
+    setSelectedEmployee(null);
+    setIsModalOpen(true);
+  };
+
+  // Open edit modal
+  const openEditModal = (employee) => {
+    setSelectedEmployee(employee);
+    setIsModalOpen(true);
+  };
+
+  // Close employee modal
+  const closeModal = () => {
+    if (submitting) return;
+
+    setIsModalOpen(false);
+    setSelectedEmployee(null);
+  };
+
   return (
     <div className="page-container">
+
+      {/* Header */}
       <div className="page-header">
         <div>
-          <h1 className="page-title">Employee Directory</h1>
-          <p className="page-subtitle">Manage organization staff, roles, and profiles</p>
+          <h1 className="page-title">
+            Employee Directory
+          </h1>
+
+          <p className="page-subtitle">
+            Manage organization staff, roles, and profiles
+          </p>
         </div>
+
         <Button
           variant="primary"
           icon={UserPlus}
-          onClick={() => {
-            setSelectedEmployee(null);
-            setIsModalOpen(true);
-          }}
+          onClick={openCreateModal}
         >
           Add Employee
         </Button>
       </div>
 
+      {/* Search and View Controls */}
       <div
         className="card"
         style={{
@@ -140,18 +235,32 @@ const AdminEmployees = () => {
         <SearchBar
           value={search}
           onChange={setSearch}
-          placeholder="Search by name, email, or department..."
+          placeholder="Search by name, email, ID, or department..."
         />
 
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '8px'
+          }}
+        >
           <Button
-            variant={viewMode === 'table' ? 'primary' : 'secondary'}
+            variant={
+              viewMode === 'table'
+                ? 'primary'
+                : 'secondary'
+            }
             size="sm"
             icon={List}
             onClick={() => setViewMode('table')}
           />
+
           <Button
-            variant={viewMode === 'grid' ? 'primary' : 'secondary'}
+            variant={
+              viewMode === 'grid'
+                ? 'primary'
+                : 'secondary'
+            }
             size="sm"
             icon={LayoutGrid}
             onClick={() => setViewMode('grid')}
@@ -159,74 +268,99 @@ const AdminEmployees = () => {
         </div>
       </div>
 
+      {/* Employee Content */}
       {loading ? (
         <Loader message="Loading employees..." />
-      ) : viewMode === 'table' ? (
-        <>
-          <EmployeeTable
-            employees={paginatedEmployees}
-            onEdit={(emp) => {
-              setSelectedEmployee(emp);
-              setIsModalOpen(true);
-            }}
-            onDelete={(id) => setDeleteId(id)}
-          />
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
-        </>
       ) : (
         <>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-              gap: '20px'
-            }}
-          >
-            {paginatedEmployees.map((emp) => (
-              <EmployeeCard
-                key={emp.id}
-                employee={emp}
-                onEdit={(employee) => {
-                  setSelectedEmployee(employee);
-                  setIsModalOpen(true);
-                }}
-                onDelete={(id) => setDeleteId(id)}
-              />
-            ))}
-          </div>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          {paginatedEmployees.length === 0 ? (
+            <div
+              className="card"
+              style={{
+                textAlign: 'center',
+                padding: '40px'
+              }}
+            >
+              <h3>No employees found</h3>
+
+              <p>
+                {search
+                  ? 'Try a different search term.'
+                  : 'No employee records are available.'}
+              </p>
+            </div>
+          ) : viewMode === 'table' ? (
+            <EmployeeTable
+              employees={paginatedEmployees}
+              onEdit={openEditModal}
+              onDelete={(id) => setDeleteId(id)}
+            />
+          ) : (
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns:
+                  'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: '20px'
+              }}
+            >
+              {paginatedEmployees.map((emp) => (
+                <EmployeeCard
+                  key={emp.id}
+                  employee={emp}
+                  onEdit={openEditModal}
+                  onDelete={(id) => setDeleteId(id)}
+                />
+              ))}
+            </div>
+          )}
+
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
         </>
       )}
 
+      {/* Create / Update Modal */}
       <Modal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={selectedEmployee ? 'Edit Employee Profile' : 'Onboard New Employee'}
+        onClose={closeModal}
+        title={
+          selectedEmployee
+            ? 'Edit Employee Profile'
+            : 'Onboard New Employee'
+        }
       >
         <EmployeeForm
           initialValues={selectedEmployee}
-          onSubmit={selectedEmployee ? handleUpdate : handleCreate}
-          onCancel={() => setIsModalOpen(false)}
+          onSubmit={
+            selectedEmployee
+              ? handleUpdate
+              : handleCreate
+          }
+          onCancel={closeModal}
           loading={submitting}
         />
       </Modal>
 
+      {/* Delete Confirmation */}
       <ConfirmDialog
-        isOpen={!!deleteId}
-        onClose={() => setDeleteId(null)}
+        isOpen={deleteId !== null}
+        onClose={() => {
+          if (!submitting) {
+            setDeleteId(null);
+          }
+        }}
         onConfirm={handleDelete}
         title="Delete Employee Record"
         message="Are you sure you want to delete this employee? All linked attendance and payroll records will be permanently removed."
         loading={submitting}
       />
+
     </div>
   );
 };

@@ -42,7 +42,18 @@
   border-bottom: 1px solid var(--sidebar-border);
   flex-shrink: 0;
 }
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.sidebar-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+/* 
 .logo-circle {
   width: 40px;
   height: 40px;
@@ -54,7 +65,7 @@
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(106, 137, 167, 0.4);
   flex-shrink: 0;
-}
+} */
 
 .logo-text {
   font-size: 1.0625rem;

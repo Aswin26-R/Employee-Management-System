@@ -8,6 +8,7 @@ import DepartmentChart from '../../components/dashboard/DepartmentChart';
 import DashboardEmployeeTable from '../../components/dashboard/EmployeeTable';
 import ActivityLog from '../../components/dashboard/ActivityLog';
 import Loader from '../../components/common/Loader';
+import { IndianRupee } from 'lucide-react';
 import { dashboardService } from '../../services/dashboardService';
 import { employeeService } from '../../services/employeeService';
 import {
@@ -15,7 +16,6 @@ import {
   Building2,
   UserCheck,
   CalendarDays,
-  DollarSign,
   UserPlus,
   FileCheck,
   CreditCard,
@@ -120,7 +120,7 @@ const AdminDashboard = () => {
         <StatsCard
           title="Monthly Payroll"
           value={formatCurrency(stats.monthlyPayroll)}
-          icon={DollarSign}
+          icon={IndianRupee}
           trend={4.2}
           bgColor="#f3e8ff"
           iconColor="#9333ea"

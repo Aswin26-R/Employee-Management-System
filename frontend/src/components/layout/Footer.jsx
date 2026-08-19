@@ -3,9 +3,9 @@ const Footer = () => {
   return (
     <footer className="app-footer" role="contentinfo">
       <span>
-        © {year} <span className="app-footer-brand">WorkforceHR Inc.</span> — All Rights Reserved
+        © {year} <span className="app-footer-brand">WorkBalance Suite</span> — All Rights Reserved
       </span>
-      <span>v2.0.0 · Enterprise Edition</span>
+      <span>v2.0.0 · Enterprise Edition - AswinR26 </span>
     </footer>
   );
 };

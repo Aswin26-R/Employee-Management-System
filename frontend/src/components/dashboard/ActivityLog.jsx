@@ -1,7 +1,7 @@
 const dummyActivities = [
-  { id: 1, text: 'John Doe checked in at 09:02 AM', time: '10 mins ago' },
+  { id: 1, text: 'Aswin checked in at 09:02 AM', time: '10 mins ago' },
   { id: 2, text: 'Leave request approved for Sarah Connor', time: '45 mins ago' },
-  { id: 3, text: 'New employee Marcus Vance added to Engineering', time: '2 hours ago' },
+  { id: 3, text: 'New employee LeoDas added to Engineering', time: '2 hours ago' },
   { id: 4, text: 'June Payroll generated for 48 employees', time: 'Yesterday' }
 ];
 
